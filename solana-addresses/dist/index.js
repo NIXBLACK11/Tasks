@@ -22,25 +22,19 @@ const SOLANA_RPC_ENDPOINT = "https://api.mainnet-beta.solana.com";
 exports.connection = new web3_js_1.Connection(SOLANA_RPC_ENDPOINT);
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const inputCSVPath = "./addresses.csv";
-    const outputCSVPath = "out.csv";
-    // Read wallet addresses from the CSV
+    const outputCSVPath = "./addresses.csv";
     const addresses = yield (0, fileReader_1.fileReader)(inputCSVPath);
-    // Initialize an array to store the results
     const results = [];
     for (const address of addresses) {
         try {
-            // Fetch SOL balance
             const solBalance = yield (0, getSolana_1.getSolana)(address);
-            // Fetch USDC balance
             const usdcBalance = yield (0, getUSDC_1.getUSDC)(address);
-            // Add to results
             results.push({ address, sol: solBalance, usdc: usdcBalance });
         }
         catch (error) {
             console.error(`Error processing wallet ${address}: ${error}`);
         }
     }
-    // Write results to the output CSV
     const csvHeader = "address,SOL,USDC\n";
     const csvRows = results.map(({ address, sol, usdc }) => `${address},${sol},${usdc}`).join("\n");
     fs_1.default.writeFileSync(outputCSVPath, csvHeader + csvRows);
