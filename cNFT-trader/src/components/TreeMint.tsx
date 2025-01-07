@@ -40,7 +40,7 @@ export const TreeMint = () => {
 
 			const metadata = {
 				name: 'Test transfer',
-				uri: 'https://example.com/my-cnft.json',
+				uri: 'https://example.com/test-cnft.json',
 				sellerFeeBasisPoints: 500, // 5% fee
 				collection: null, // No collection
 				creators: [
