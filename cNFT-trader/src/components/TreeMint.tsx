@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
 import { generateSigner, KeypairSigner, percentAmount } from '@metaplex-foundation/umi';
-import { createTree, LeafSchema, mintToCollectionV1, mplBubblegum, parseLeafFromMintToCollectionV1Transaction } from '@metaplex-foundation/mpl-bubblegum';
+import { createTree, findLeafAssetIdPda, LeafSchema, mintToCollectionV1, mplBubblegum, parseLeafFromMintToCollectionV1Transaction } from '@metaplex-foundation/mpl-bubblegum';
 import { walletAdapterIdentity } from '@metaplex-foundation/umi-signer-wallet-adapters';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { createNft } from '@metaplex-foundation/mpl-token-metadata'
+import { createNft, mplTokenMetadata } from '@metaplex-foundation/mpl-token-metadata'
+import { dasApi } from '@metaplex-foundation/digital-asset-standard-api';
 
 export const TreeMint = () => {
 	const [treeAddress, setTreeAddess] = useState<KeypairSigner>();
@@ -13,7 +14,11 @@ export const TreeMint = () => {
 	const [loading, setLoading] = useState(false);
 	const umi = createUmi('https://api.devnet.solana.com');
 	umi.use(walletAdapterIdentity(wallet));
+	umi.use(mplTokenMetadata());
 	umi.use(mplBubblegum());
+
+umi.use(dasApi());
+	
 	const signer = generateSigner(umi);
 
 	const createBubblegumTree = async () => {
@@ -48,7 +53,7 @@ export const TreeMint = () => {
 			await createNft(umi, {
 				mint: collectionMint,
 				name: 'My Collection',
-				uri: 'https://example.com/my-collection.json',
+				uri: 'https://raw.githubusercontent.com/NIXBLACK11/Tasks/refs/heads/main/cNFT-trader/test-collection.json',
 				sellerFeeBasisPoints: percentAmount(5.5),
 				isCollection: true,
 			}).sendAndConfirm(umi)
@@ -60,7 +65,7 @@ export const TreeMint = () => {
 		} finally {
 		  	setLoading(false);
 		}
-	  };
+	};
 	
 
 	const mintCompressedNFT = async () => {
@@ -108,10 +113,10 @@ export const TreeMint = () => {
 						{ address: signer.publicKey, verified: false, share: 100 },
 					],
 				},
-			  }).sendAndConfirm(umi)
+			}).sendAndConfirm(umi)
 
 			console.log('Compressed NFT Minted!',signature);
-				
+
 			const leaf: LeafSchema = await parseLeafFromMintToCollectionV1Transaction(umi, signature);
   			console.log('leaf', leaf);
 		} catch (error) {
