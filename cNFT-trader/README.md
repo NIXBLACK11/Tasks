@@ -4,12 +4,28 @@
 - https://dev.tensor.trade/reference/getuserportfoliocollections
 - https://dev.tensor.trade/recipes/buy-floor-nft
 
-Merkle Tree
-AYL1pAybcsU9DzsshLjm3FUpAXfsYtL7w2GaWYLZUApp
-
-collection mint 7a2P9diTYhDqi8ahSBtSJ8QeAXYcnf2njVvfJNFNEDeY
-TreeMint.tsx:58 NFT Collection created 7a2P9diTYhDqi8ahSBtSJ8QeAXYcnf2njVvfJNFNEDeY
-
+merkleTree 71AdTSJrPSKV5ogNBVwB4d1kJ357dcSHMtdpjj6rhXNF
+Bubblegum Tree Created! 71AdTSJrPSKV5ogNBVwB4d1kJ357dcSHMtdpjj6rhXNF
+collection mint GvU6tvisJd2WFp3K7yX48aPZL39ft8pwgVoLMYJe6Z9C
+NFT Collection created GvU6tvisJd2WFp3K7yX48aPZL39ft8pwgVoLMYJe6Z9C
 
 
 
+
+```
+			// For without collection
+			// const { signature } = await mintV1(umi, {
+			// 	leafOwner,
+			// 	merkleTree: merkleTreeAddress,
+			// 	metadata : {
+			// 		name: 'Test transfer',
+			// 		uri: 'https://raw.githubusercontent.com/NIXBLACK11/Tasks/refs/heads/main/cNFT-trader/test-cnft.json',
+			// 		sellerFeeBasisPoints: 500, // 5% fee
+			// 		collection: none(), // No collection
+			// 		creators: [
+			// 			{ address: signer.publicKey, verified: false, share: 100 },
+			// 		],
+			// 	},
+			// }).sendAndConfirm(umi);
+			// const leaf: LeafSchema = await parseLeafFromMintV1Transaction(umi, signature);
+```

@@ -1,7 +1,7 @@
 {
-    "name": "My Collection",
-    "symbol": "MYCOLL",
-    "uri": "https://raw.githubusercontent.com/NIXBLACK11/Nixarcade/refs/heads/main/public/mainlogo.png",
+    "name": "test-collection",
+    "symbol": "teco",
+    "uri": "https://raw.githubusercontent.com/NIXBLACK11/Nixarcade/refs/heads/main/public/qwerty.png",
     "creator": "FhNZ5dafuzZLQXixkvRd2FP4XsDvmPyzaHnQwEtA1mPT",
     "verified": true
   }

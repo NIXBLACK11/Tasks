@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
 import { generateSigner, KeypairSigner, percentAmount } from '@metaplex-foundation/umi';
-import { createTree, findLeafAssetIdPda, LeafSchema, mintToCollectionV1, mplBubblegum, parseLeafFromMintToCollectionV1Transaction } from '@metaplex-foundation/mpl-bubblegum';
+import { createTree, mintToCollectionV1, mplBubblegum } from '@metaplex-foundation/mpl-bubblegum';
 import { walletAdapterIdentity } from '@metaplex-foundation/umi-signer-wallet-adapters';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { createNft, mplTokenMetadata } from '@metaplex-foundation/mpl-token-metadata'
 import { dasApi } from '@metaplex-foundation/digital-asset-standard-api';
+import { base58 } from '@metaplex-foundation/umi/serializers';
 
 export const TreeMint = () => {
 	const [treeAddress, setTreeAddess] = useState<KeypairSigner>();
@@ -16,10 +17,7 @@ export const TreeMint = () => {
 	umi.use(walletAdapterIdentity(wallet));
 	umi.use(mplTokenMetadata());
 	umi.use(mplBubblegum());
-
-umi.use(dasApi());
-	
-	const signer = generateSigner(umi);
+	umi.use(dasApi());
 
 	const createBubblegumTree = async () => {
 		try {
@@ -52,7 +50,7 @@ umi.use(dasApi());
 
 			await createNft(umi, {
 				mint: collectionMint,
-				name: 'My Collection',
+				name: 'test-collection',
 				uri: 'https://raw.githubusercontent.com/NIXBLACK11/Tasks/refs/heads/main/cNFT-trader/test-collection.json',
 				sellerFeeBasisPoints: percentAmount(5.5),
 				isCollection: true,
@@ -71,7 +69,8 @@ umi.use(dasApi());
 	const mintCompressedNFT = async () => {
 		try {
 			setLoading(true);
-			const leafOwner = signer.publicKey;
+
+			const leafOwner = umi.identity.publicKey;
 
 			const merkleTreeAddress = treeAddress?.publicKey;
 			const collectionMint = collectionAddress?.publicKey;
@@ -84,41 +83,27 @@ umi.use(dasApi());
 				throw new Error("Collection mint is undefined. Ensure the mint is created correctly.");
 			}
 
-			// For without collection
-			// const { signature } = await mintV1(umi, {
-			// 	leafOwner,
-			// 	merkleTree: merkleTreeAddress,
-			// 	metadata : {
-			// 		name: 'Test transfer',
-			// 		uri: 'https://raw.githubusercontent.com/NIXBLACK11/Tasks/refs/heads/main/cNFT-trader/test-cnft.json',
-			// 		sellerFeeBasisPoints: 500, // 5% fee
-			// 		collection: none(), // No collection
-			// 		creators: [
-			// 			{ address: signer.publicKey, verified: false, share: 100 },
-			// 		],
-			// 	},
-			// }).sendAndConfirm(umi);
-			// const leaf: LeafSchema = await parseLeafFromMintV1Transaction(umi, signature);
-
 			const { signature } = await mintToCollectionV1(umi, {
 				leafOwner,
 				merkleTree: merkleTreeAddress,
 				collectionMint: collectionMint,
 				metadata : {
-					name: 'Test Compressed NFT',
+					name: 'test-cnft',
 					uri: 'https://raw.githubusercontent.com/NIXBLACK11/Tasks/refs/heads/main/cNFT-trader/test-cnft.json',
 					sellerFeeBasisPoints: 500, // 5% fee
 					collection: { key: collectionMint, verified: false },
 					creators: [
-						{ address: signer.publicKey, verified: false, share: 100 },
+						{ address: leafOwner, verified: false, share: 100 },
 					],
 				},
-			}).sendAndConfirm(umi)
+			}).sendAndConfirm(umi, {send: { skipPreflight: true}})
+
+			const signatureString = base58.deserialize(signature);
+
+			console.log("signature->", signatureString);			
+			// const leaf: LeafSchema = await parseLeafFromMintToCollectionV1Transaction(umi, signature);
 
 			console.log('Compressed NFT Minted!',signature);
-
-			const leaf: LeafSchema = await parseLeafFromMintToCollectionV1Transaction(umi, signature);
-  			console.log('leaf', leaf);
 		} catch (error) {
 			console.error('Error minting cNFT:', error);
 		} finally {
@@ -127,16 +112,30 @@ umi.use(dasApi());
 	};
 
   return (
-		<div className='bg-cyan-300 p-4 rounded-lg'>
-			<button className="bg-blue-500 rounded-lg p-4 m-2" onClick={createBubblegumTree} disabled={loading}>
-				{loading ? 'Creating Bubblegum Tree...' : 'Create Bubblegum Tree'}
-			</button>
-			<button className="bg-blue-500 rounded-lg p-4 m-2" onClick={createCollectionNFT} disabled={loading}>
-				{loading ? 'Creating Collection Tree...' : 'Create NFT Collection'}
-			</button>
-			<button className="bg-blue-500 rounded-lg p-4 m-2" onClick={mintCompressedNFT} disabled={loading}>
-				{loading ? 'Minting Compressed NFT...' : 'Mint Compressed NFT'}
-			</button>
+		<div className='bg-cyan-300 p-4 rounded-lg flex flex-col'>
+			<div className='bg-cyan-400 rounded-lg flex flex-row'>
+				<button className="bg-blue-500 rounded-lg p-4 m-2" onClick={createBubblegumTree} disabled={loading}>
+					{loading ? 'Creating Bubblegum Tree...' : 'Create Bubblegum Tree'}
+				</button>
+				<button className="bg-blue-500 rounded-lg p-4 m-2" onClick={createCollectionNFT} disabled={loading}>
+					{loading ? 'Creating Collection Tree...' : 'Create NFT Collection'}
+				</button>
+				<button className="bg-blue-500 rounded-lg p-4 m-2" onClick={mintCompressedNFT} disabled={loading}>
+					{loading ? 'Minting Compressed NFT...' : 'Mint Compressed NFT'}
+				</button>
+			</div>
+			<div className='bg-cyan-400 rounded-lg flex flex-row'>
+				{treeAddress && (
+					<div className="bg-blue-500 rounded-lg p-4 m-2">
+					{treeAddress.publicKey} {/* Convert to string if it's an object */}
+					</div>
+				)}
+				{collectionAddress && (
+					<div className="bg-blue-500 rounded-lg p-4 m-2">
+					{collectionAddress.publicKey} {/* Convert to string if needed */}
+					</div>
+				)}
+			</div>
 		</div>
   );
 };
