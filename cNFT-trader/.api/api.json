@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "tensor",
+      "source": "@tensor/v1.0#25o7s30vm0pvl8sl",
+      "integrity": "sha512-55sujtol169zFwdcZU19CgctIzxmjR2BldsB4+U6NohqDn/ABb4jp2t76EKjAYZozDBlsE+kFKp4/7bi7A7w6A==",
+      "installerVersion": "6.1.2"
+    }
+  ]
+}

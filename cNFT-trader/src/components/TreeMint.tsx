@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
 import { generateSigner, KeypairSigner, percentAmount } from '@metaplex-foundation/umi';
@@ -7,9 +8,13 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { createNft, mplTokenMetadata } from '@metaplex-foundation/mpl-token-metadata'
 import { dasApi } from '@metaplex-foundation/digital-asset-standard-api';
 import { base58 } from '@metaplex-foundation/umi/serializers';
+import { clusterApiUrl, Connection } from '@solana/web3.js';
+
+const TENSOR_API_KEY = import.meta.env.TENSOR_API_KEY;
 
 export const TreeMint = () => {
 	const [treeAddress, setTreeAddess] = useState<KeypairSigner>();
+	const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
 	const [collectionAddress, setCollectionAddress] = useState<KeypairSigner>();
 	const wallet = useWallet();
 	const [loading, setLoading] = useState(false);
@@ -111,6 +116,35 @@ export const TreeMint = () => {
 		}
 	};
 
+	const ListNFT = async () => {
+		try {
+			setLoading(true);
+			console.log(TENSOR_API_KEY);
+			const { blockhash } = await connection.getLatestBlockhash();
+			let mintAddress = "4MxqwxKbRms7SM4pw6m7wceYKeictGwh1mZkxetC7oFU";
+			let NFTOwner = "FhNZ5dafuzZLQXixkvRd2FP4XsDvmPyzaHnQwEtA1mPT";
+			let NFTprice = "2";
+			let delegateSigner = "true";
+	
+			const options = {
+				method: 'GET',
+				url: `https://api.devnet.tensordev.io/api/v1/tx/list?mint=${mintAddress}&owner=${NFTOwner}&price=${NFTprice}&blockhash=${blockhash}&delegateSigner=${delegateSigner}`,
+				headers: {
+					accept: 'application/json',
+					'x-tensor-api-key': TENSOR_API_KEY
+				}
+			};
+	
+			const res = await axios.request(options);
+			console.log(res.data);
+			// console.log(blockhash);
+		} catch (err: any) {
+			console.error('Error in listing NFT:', err);
+		} finally {
+			setLoading(false);
+		}
+	}
+
   return (
 		<div className='bg-cyan-300 p-4 rounded-lg flex flex-col'>
 			<div className='bg-cyan-400 rounded-lg flex flex-row'>
@@ -122,6 +156,9 @@ export const TreeMint = () => {
 				</button>
 				<button className="bg-blue-500 rounded-lg p-4 m-2" onClick={mintCompressedNFT} disabled={loading}>
 					{loading ? 'Minting Compressed NFT...' : 'Mint Compressed NFT'}
+				</button>
+				<button className="bg-blue-500 rounded-lg p-4 m-2" onClick={ListNFT} disabled={loading}>
+					{loading ? 'Listing NFT...' : 'List NFT'}
 				</button>
 			</div>
 			<div className='bg-cyan-400 rounded-lg flex flex-row'>

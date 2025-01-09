@@ -3,13 +3,11 @@
 - https://developers.metaplex.com/bubblegum/mint-cnfts
 - https://dev.tensor.trade/reference/getuserportfoliocollections
 - https://dev.tensor.trade/recipes/buy-floor-nft
+- https://www.npmjs.com/package/@tensor-oss/tcomp-sdk
 
-merkleTree 71AdTSJrPSKV5ogNBVwB4d1kJ357dcSHMtdpjj6rhXNF
-Bubblegum Tree Created! 71AdTSJrPSKV5ogNBVwB4d1kJ357dcSHMtdpjj6rhXNF
-collection mint GvU6tvisJd2WFp3K7yX48aPZL39ft8pwgVoLMYJe6Z9C
-NFT Collection created GvU6tvisJd2WFp3K7yX48aPZL39ft8pwgVoLMYJe6Z9C
-
-
+merkleTree address 4LbE6DRmWWfGdZFEeBCEJ5J3jhFGxeKPHiMN5z8R9DKd
+Collecrion address4MxqwxKbRms7SM4pw6m7wceYKeictGwh1mZkxetC7oFU
+Token address Aeft1eQ9P8cCR6Y3vR99ksjhrpU6UZEzEUjHVxCVrAXA
 
 
 ```
