@@ -43,7 +43,7 @@ router.get('/listNFT', async (req: any, res: any) => {
     } catch (err: any) {
         console.error('Error in listing NFT:', err.message);
         return res.status(500).json({
-            error: "An error occurred while fetching NFT data",
+            error: "An error occurred while listing the NFT",
             details: err.message
         });
     }

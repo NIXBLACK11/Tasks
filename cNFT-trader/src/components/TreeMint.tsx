@@ -7,10 +7,12 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { createNft, mplTokenMetadata } from '@metaplex-foundation/mpl-token-metadata'
 import { dasApi } from '@metaplex-foundation/digital-asset-standard-api';
 import { base58 } from '@metaplex-foundation/umi/serializers';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 
 export const TreeMint = () => {
 	const [treeAddress, setTreeAddess] = useState<KeypairSigner>();
 	const [collectionAddress, setCollectionAddress] = useState<KeypairSigner>();
+	const [transaction, setTransaction] = useState<string>();
 	const wallet = useWallet();
 	const [loading, setLoading] = useState(false);
 	const umi = createUmi('https://api.devnet.solana.com');
@@ -102,7 +104,7 @@ export const TreeMint = () => {
 
 			console.log("signature->", signatureString);			
 			// const leaf: LeafSchema = await parseLeafFromMintToCollectionV1Transaction(umi, signature);
-
+			setTransaction(signatureString[0]);
 			console.log('Compressed NFT Minted!',signature);
 		} catch (error) {
 			console.error('Error minting cNFT:', error);
@@ -124,15 +126,49 @@ export const TreeMint = () => {
 					{loading ? 'Minting Compressed NFT...' : 'Mint Compressed NFT'}
 				</button>
 			</div>
-			<div className='bg-cyan-400 rounded-lg flex flex-row'>
+			<div className='bg-cyan-400 rounded-lg flex flex-col'>
 				{treeAddress && (
-					<div className="bg-blue-500 rounded-lg p-4 m-2">
-					{treeAddress.publicKey} {/* Convert to string if it's an object */}
+					<div className="bg-blue-500 rounded-lg p-4 m-2 text-white flex items-center">
+						Merkle Tree address:
+						<a
+							href={`https://explorer.solana.com/address/${treeAddress.publicKey}?cluster=devnet`}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="underline flex items-center"
+						>
+							{treeAddress.publicKey}
+							<FaExternalLinkAlt className="ml-2" />
+						</a>
 					</div>
 				)}
+
 				{collectionAddress && (
-					<div className="bg-blue-500 rounded-lg p-4 m-2">
-					{collectionAddress.publicKey} {/* Convert to string if needed */}
+					<div className="bg-blue-500 rounded-lg p-4 m-2 text-white flex items-center">
+						NFT Collection address:
+						<a
+							href={`https://explorer.solana.com/address/${collectionAddress.publicKey}?cluster=devnet`}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="underline flex items-center"
+						>
+							{collectionAddress.publicKey}
+							<FaExternalLinkAlt className="ml-2" />
+						</a>
+					</div>
+				)}
+
+				{transaction && (
+					<div className="bg-blue-500 rounded-lg p-4 m-2 text-white flex items-center">
+						cNFT will be avaiable at your phantom wallet:
+						<a
+							href={`https://explorer.solana.com/transaction/${transaction}?cluster=devnet`}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="underline flex items-center"
+						>
+							{transaction}
+							<FaExternalLinkAlt className="ml-2" />
+						</a>
 					</div>
 				)}
 			</div>

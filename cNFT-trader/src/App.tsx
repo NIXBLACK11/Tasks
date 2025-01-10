@@ -8,6 +8,7 @@ import './App.css'
 import { useMemo } from 'react';
 import { clusterApiUrl } from '@solana/web3.js';
 import { TreeMint } from './components/TreeMint';
+import { Navbar } from './components/Navbar';
 
 function App() {
 	const network = WalletAdapterNetwork.Devnet;
@@ -24,6 +25,7 @@ function App() {
 				<WalletModalProvider>
 					<div className='bg-black h-screen w-screen flex flex-col'>
 						<div className='w-screen h-1/2 flex flex-col items-center pt-20 gap-2.5 bg-[#0A0A0A]'>
+							<Navbar />
 							<WalletMultiButton />
 							<TreeMint />
 						</div>
