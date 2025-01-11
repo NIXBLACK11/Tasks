@@ -1,19 +1,17 @@
 import axios from "axios";
 import { BASE_URL } from "../constants";
 
-export const listNFT = async (
+export const delistNFT = async (
     mintAddress: string,
-    NFTOwner: string,
-    NFTprice: string
+    NFTOwner: string
 ): Promise<any> => {
     try {
-        const url = `${BASE_URL}/listNFT`;
+        const url = `${BASE_URL}/delistNFT`;
 
         const response = await axios.get(url, {
             params: {
                 mintAddress,
-                NFTOwner,
-                NFTprice
+                NFTOwner
             },
             headers: {
                 accept: 'application/json',
@@ -22,7 +20,7 @@ export const listNFT = async (
 
         return response.data;
     } catch (error: any) {
-        console.error('Error in listNFT request:', error.message);
-        throw new Error(error.response?.data?.error || 'Failed to list NFT');
+        console.error('Error in delistNFT request:', error.message);
+        throw new Error(error.response?.data?.error || 'Failed to delist NFT');
     }
 };

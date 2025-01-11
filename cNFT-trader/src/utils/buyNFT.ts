@@ -1,19 +1,21 @@
 import axios from "axios";
 import { BASE_URL } from "../constants";
 
-export const listNFT = async (
+export const buyNFT = async (
+    buyer: string,
     mintAddress: string,
-    NFTOwner: string,
-    NFTprice: string
+    ownerNFT: string,
+    maxPrice: string
 ): Promise<any> => {
     try {
-        const url = `${BASE_URL}/listNFT`;
+        const url = `${BASE_URL}/buyNFT`;
 
         const response = await axios.get(url, {
             params: {
+                buyer,
                 mintAddress,
-                NFTOwner,
-                NFTprice
+                ownerNFT,
+                maxPrice
             },
             headers: {
                 accept: 'application/json',
@@ -22,7 +24,7 @@ export const listNFT = async (
 
         return response.data;
     } catch (error: any) {
-        console.error('Error in listNFT request:', error.message);
-        throw new Error(error.response?.data?.error || 'Failed to list NFT');
+        console.error('Error in buyNFT request:', error.message);
+        throw new Error(error.response?.data?.error || 'Failed to buy NFT');
     }
 };

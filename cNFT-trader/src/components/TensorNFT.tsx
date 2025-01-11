@@ -1,4 +1,6 @@
-import { ListNFT } from "./ListNFT"
+import { BuyNFT } from "./forms/BuyNFT"
+import { DelistNFT } from "./forms/DelistNFT"
+import { ListNFT } from "./forms/ListNFT"
 
 export const TensorNFT = () => {
     return (
@@ -8,10 +10,10 @@ export const TensorNFT = () => {
                     <ListNFT />
                 </div>
                 <div className="border p-4 rounded-lg bg-white shadow-md">
-                    {/* <Nftmint /> */}
+                    <BuyNFT />
                 </div>
                 <div className="border p-4 rounded-lg bg-white shadow-md">
-                    {/* <Nftmint /> */}
+                    <DelistNFT />
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 14	64	16,384
 - https://github.com/tensor-hq/marketplace-nextjs-template/blob/main/web/app/api/listNFT/route.ts
-
+- https://tensor-backend.vercel.app/
 - https://developers.metaplex.com/bubblegum/mint-cnfts
 - https://dev.tensor.trade/reference/getuserportfoliocollections
 - https://dev.tensor.trade/recipes/buy-floor-nft

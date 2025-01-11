@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { listNFT } from '../utils/listNFT';
+import { listNFT } from '../../utils/listNFT';
+import { Transaction, VersionedTransaction } from '@solana/web3.js';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 
 export const ListNFT = () => {
+    const wallet = useWallet();
+    const { connection } = useConnection();
     const [formData, setFormData] = useState({
         mintAddress: '',
         NFTOwner: '',
-        NFTprice: '',
-        delegateSigner: ''
+        NFTprice: ''
     });
 
     const [status, setStatus] = useState<{
@@ -30,17 +33,38 @@ export const ListNFT = () => {
         setStatus({ type: null, message: '' });
 
         try {
-            const result = await listNFT(
+            const response = await listNFT(
                 formData.mintAddress,
                 formData.NFTOwner,
-                formData.NFTprice,
-                formData.delegateSigner
+                formData.NFTprice
             );
             setStatus({ 
                 type: 'success', 
                 message: 'NFT listed successfully!' 
             });
-            console.log(result);
+            
+            const txsToSign = response.data.txs.map((tx: any) =>
+                tx.txV0
+                    ? VersionedTransaction.deserialize(
+                        response.data.txs[0].txV0.data
+                        )
+                    : Transaction.from(tx.tx.data)
+            );
+            if(!wallet || !wallet.signAllTransactions) {
+            console.log("Wallet not connected");
+            return;
+            }
+            const txsSigned = await wallet.signAllTransactions(txsToSign);
+
+            // Must send txs serially for a given response!
+            for (const tx of txsSigned) {
+                if (tx instanceof VersionedTransaction) {
+                    const sig = await connection.sendTransaction(tx);
+                    await connection.confirmTransaction(sig);
+                } else {
+                    throw new Error("Transaction is not of type VersionedTransaction");
+                }
+            }            
         } catch (error) {
             setStatus({ 
                 type: 'error', 
@@ -82,16 +106,6 @@ export const ListNFT = () => {
                         placeholder="NFT Price"
                         name="NFTprice"
                         value={formData.NFTprice}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                </div>
-                <div>
-                    <input
-                        type="text"
-                        placeholder="Delegate Signer"
-                        name="delegateSigner"
-                        value={formData.delegateSigner}
                         onChange={handleInputChange}
                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
