@@ -6,8 +6,8 @@
 - https://dev.tensor.trade/recipes/buy-floor-nft
 - https://www.npmjs.com/package/@tensor-oss/tcomp-sdk
 
-merkleTree address 4LbE6DRmWWfGdZFEeBCEJ5J3jhFGxeKPHiMN5z8R9DKd
-Collecrion address4MxqwxKbRms7SM4pw6m7wceYKeictGwh1mZkxetC7oFU
+merkleTree address 79DCapdfju1GTYZG8yzuKDpnzpzTzABNyrVTXxtkooSY
+Collecrion address 5rTpnKZcD5yGy1MpkgQNwD8GWqDyTsSgYJYVDzHHsLrQ
 Token address Aeft1eQ9P8cCR6Y3vR99ksjhrpU6UZEzEUjHVxCVrAXA
 
 
