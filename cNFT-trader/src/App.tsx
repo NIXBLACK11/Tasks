@@ -4,12 +4,13 @@ import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-r
 
 import '@solana/wallet-adapter-react-ui/styles.css';
 import './App.css'
+import './wallet.css'
 
 import { useMemo } from 'react';
 import { clusterApiUrl } from '@solana/web3.js';
 import { TreeMint } from './components/TreeMint';
 import { Navbar } from './components/Navbar';
-import { TensorNFT } from './components/TensorNFT';
+import { NFTGrid } from './components/NFTGrid';
 
 function App() {
 	const network = WalletAdapterNetwork.Devnet;
@@ -24,12 +25,12 @@ function App() {
 		<ConnectionProvider endpoint={endpoint}>
 			<WalletProvider wallets={wallets} autoConnect>
 				<WalletModalProvider>
-					<div className='bg-black h-screen w-screen flex flex-col'>
-						<div className='w-screen h-1/2 flex flex-col items-center pt-20 gap-2.5 bg-black'>
+					<div className='bg-[#0F0F10] min-h-screen min-w-screen flex flex-col overflow-x-hidden font-custom'>
+						<div className='w-screen h-1/2 flex flex-col items-center pt-5 gap-2.5 bg-black'>
 							<Navbar />
-							<WalletMultiButton />
+							<WalletMultiButton className="wallet-button font-custom" />
 							<TreeMint />
-							<TensorNFT />
+							<NFTGrid />
 						</div>
 					</div>
 				</WalletModalProvider>

@@ -1,25 +1,24 @@
 import { useState } from 'react';
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
-import { generateSigner, KeypairSigner, percentAmount } from '@metaplex-foundation/umi';
-import { createTree, mintToCollectionV1, mplBubblegum } from '@metaplex-foundation/mpl-bubblegum';
+import { generateSigner, percentAmount, publicKey, PublicKey } from '@metaplex-foundation/umi';
 import { walletAdapterIdentity } from '@metaplex-foundation/umi-signer-wallet-adapters';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { createNft, mplTokenMetadata } from '@metaplex-foundation/mpl-token-metadata'
-import { dasApi } from '@metaplex-foundation/digital-asset-standard-api';
 import { base58 } from '@metaplex-foundation/umi/serializers';
 import { FaExternalLinkAlt } from 'react-icons/fa';
+import { createTree, mintToCollectionV1, mplBubblegum } from '@metaplex-foundation/mpl-bubblegum';
 
 export const TreeMint = () => {
-	const [treeAddress, setTreeAddess] = useState<KeypairSigner>();
-	const [collectionAddress, setCollectionAddress] = useState<KeypairSigner>();
+	const RPC_URL = import.meta.env.VITE_RPC_URL;
+	const [treeAddress, setTreeAddess] = useState<PublicKey>();
+	const [collectionAddress, setCollectionAddress] = useState<PublicKey>();
 	const [transaction, setTransaction] = useState<string>();
 	const wallet = useWallet();
 	const [loading, setLoading] = useState(false);
-	const umi = createUmi('https://api.devnet.solana.com');
+	const umi = createUmi(RPC_URL);
 	umi.use(walletAdapterIdentity(wallet));
 	umi.use(mplTokenMetadata());
 	umi.use(mplBubblegum());
-	umi.use(dasApi());
 
 	const createBubblegumTree = async () => {
 		try {
@@ -35,7 +34,7 @@ export const TreeMint = () => {
 
 			await builder.sendAndConfirm(umi);
 			console.log('Bubblegum Tree Created!', merkleTree.publicKey);
-			setTreeAddess(merkleTree);
+			setTreeAddess(merkleTree.publicKey);
 		} catch (error) {
 			console.error('Error creating Bubblegum Tree:', error);
 		} finally {
@@ -59,7 +58,7 @@ export const TreeMint = () => {
 			}).sendAndConfirm(umi)
 			
 			console.log('NFT Collection created', collectionMint.publicKey);
-			setCollectionAddress(collectionMint);
+			setCollectionAddress(collectionMint.publicKey);
 		} catch (error) {
 		  	console.error('Error creating Collection NFT:', error);
 		} finally {
@@ -74,8 +73,8 @@ export const TreeMint = () => {
 
 			const leafOwner = umi.identity.publicKey;
 
-			const merkleTreeAddress = treeAddress?.publicKey;
-			const collectionMint = collectionAddress?.publicKey;
+			const merkleTreeAddress = treeAddress;
+			const collectionMint = collectionAddress;
 
 			if (!merkleTreeAddress) {
 			  throw new Error("Merkle Tree address is undefined. Ensure the tree is created correctly.");
@@ -102,12 +101,12 @@ export const TreeMint = () => {
 
 			const signatureString = base58.deserialize(signature);
 
-			console.log("signature->", signatureString);			
+			console.log("signature->", signatureString);
 			// const leaf: LeafSchema = await parseLeafFromMintToCollectionV1Transaction(umi, signature);
 			setTransaction(signatureString[0]);
 			console.log('Compressed NFT Minted!',signature);
 		} catch (error) {
-			console.error('Error minting cNFT:', error);
+			console.error('Error fetching cNFT:', error);
 		} finally {
 			setLoading(false);
 		}
@@ -116,27 +115,43 @@ export const TreeMint = () => {
   return (
 		<div className='bg-cyan-300 p-4 rounded-lg flex flex-col'>
 			<div className='bg-cyan-400 rounded-lg flex flex-row'>
-				<button className="bg-blue-500 rounded-lg p-4 m-2" onClick={createBubblegumTree} disabled={loading}>
+				<button className="bg-blue-500 hover:bg-blue-800 rounded-lg p-4 m-2" onClick={createBubblegumTree} disabled={loading}>
 					{loading ? 'Creating Bubblegum Tree...' : 'Create Bubblegum Tree'}
 				</button>
-				<button className="bg-blue-500 rounded-lg p-4 m-2" onClick={createCollectionNFT} disabled={loading}>
+				<button className="bg-blue-500 hover:bg-blue-800 rounded-lg p-4 m-2" onClick={createCollectionNFT} disabled={loading}>
 					{loading ? 'Creating Collection Tree...' : 'Create NFT Collection'}
 				</button>
-				<button className="bg-blue-500 rounded-lg p-4 m-2" onClick={mintCompressedNFT} disabled={loading}>
-					{loading ? 'Minting Compressed NFT...' : 'Mint Compressed NFT'}
-				</button>
+				<div className='flex flex-col'>
+					<button className="bg-blue-500 hover:bg-blue-800 rounded-lg p-4 m-2" onClick={mintCompressedNFT} disabled={loading}>
+						{loading ? 'Minting Compressed NFT...' : 'Mint Compressed NFT'}
+					</button>
+					<input
+						type="text"
+						className="p-2 m-2 rounded-lg border border-gray-300"
+						placeholder="Enter Tree address:"
+						value={treeAddress}
+						onChange={(e) => setTreeAddess(publicKey(e.target.value))}
+					/>
+					<input
+						type="text"
+						className="p-2 m-2 rounded-lg border border-gray-300"
+						placeholder="Enter Mint address:"
+						value={collectionAddress}
+						onChange={(e) => setCollectionAddress(publicKey(e.target.value))}
+					/>
+				</div>
 			</div>
 			<div className='bg-cyan-400 rounded-lg flex flex-col'>
 				{treeAddress && (
 					<div className="bg-blue-500 rounded-lg p-4 m-2 text-white flex items-center">
 						Merkle Tree address:
 						<a
-							href={`https://explorer.solana.com/address/${treeAddress.publicKey}?cluster=devnet`}
+							href={`https://explorer.solana.com/address/${treeAddress}?cluster=devnet`}
 							target="_blank"
 							rel="noopener noreferrer"
 							className="underline flex items-center"
 						>
-							{treeAddress.publicKey}
+							{treeAddress}
 							<FaExternalLinkAlt className="ml-2" />
 						</a>
 					</div>
@@ -146,12 +161,12 @@ export const TreeMint = () => {
 					<div className="bg-blue-500 rounded-lg p-4 m-2 text-white flex items-center">
 						NFT Collection address:
 						<a
-							href={`https://explorer.solana.com/address/${collectionAddress.publicKey}?cluster=devnet`}
+							href={`https://explorer.solana.com/address/${collectionAddress}?cluster=devnet`}
 							target="_blank"
 							rel="noopener noreferrer"
 							className="underline flex items-center"
 						>
-							{collectionAddress.publicKey}
+							{collectionAddress}
 							<FaExternalLinkAlt className="ml-2" />
 						</a>
 					</div>
