@@ -2,6 +2,7 @@ import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import { Analytics } from "@vercel/analytics/react"
 import { clusterApiUrl } from '@solana/web3.js';
 import { useMemo } from 'react';
 
@@ -25,6 +26,7 @@ function App() {
 		<ConnectionProvider endpoint={endpoint}>
 			<WalletProvider wallets={wallets} autoConnect>
 				<WalletModalProvider>
+					<Analytics />
 					<Router>
 						<Routes>
 							<Route path="/" element={<User />} />
