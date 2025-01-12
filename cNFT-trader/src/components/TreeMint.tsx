@@ -109,6 +109,7 @@ export const TreeMint = () => {
 			console.error('Error fetching cNFT:', error);
 		} finally {
 			setLoading(false);
+			window.location.reload();
 		}
 	};
 

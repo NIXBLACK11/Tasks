@@ -7,6 +7,7 @@ import { dasApi } from '@metaplex-foundation/digital-asset-standard-api';
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
 import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-adapters";
 import { NFTCard } from "./ui/NFTCard";
+import { BuyNFT } from "./forms/BuyNFT";
 
 export const NFTGrid = () => {
 	const RPC_URL = import.meta.env.VITE_RPC_URL;
@@ -27,6 +28,7 @@ export const NFTGrid = () => {
 				if (!rpcAssetList || !rpcAssetList.items) {
 					console.error('No assets found for this owner.');
 				}
+				console.log(rpcAssetList);
 				
 				const resp: NFTData[] = rpcAssetList.items.map((item: any) => ({
 					id: item.id,
@@ -51,6 +53,7 @@ export const NFTGrid = () => {
     return (
 		<div className="flex items-center justify-center">
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-10">
+			<BuyNFT />
 			{loading ? "loading..." : nfts
 				.filter((nft) => nft.groupKey)
 				.map((nft) => (

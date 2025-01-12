@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { NFTData } from '../../types';
+import { listNFT } from '../../utils/listNFT';
+import { Transaction, VersionedTransaction } from '@solana/web3.js';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { delistNFT } from '../../utils/delistNFT';
 
 interface NFTCardProps {
   nft: NFTData;
@@ -9,8 +13,88 @@ interface NFTCardProps {
 }
 
 export const NFTCard: React.FC<NFTCardProps> = ({ nft }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [price, setPrice] = useState('');
+    const wallet = useWallet();
+    const { connection } = useConnection();
+    const [showModal, setShowModal] = useState(false);
+    const [listLoading, setListLoading] = useState(false);
+    const [deListLoading, setDeListLoading] = useState(false);
+    const [price, setPrice] = useState('');
+
+    const list = async () => {
+      setListLoading(true);
+
+      try {
+          const response = await listNFT(
+              nft.id,
+              nft.owner,
+              price
+          );
+          
+          const txsToSign = response.data.txs.map((tx: any) =>
+              tx.txV0
+                  ? VersionedTransaction.deserialize(
+                      response.data.txs[0].txV0.data
+                      )
+                  : Transaction.from(tx.tx.data)
+          );
+          if(!wallet || !wallet.signAllTransactions) {
+          console.log("Wallet not connected");
+          return;
+          }
+          const txsSigned = await wallet.signAllTransactions(txsToSign);
+
+          // Must send txs serially for a given response!
+          for (const tx of txsSigned) {
+              if (tx instanceof VersionedTransaction) {
+                  const sig = await connection.sendTransaction(tx);
+                  await connection.confirmTransaction(sig);
+              } else {
+                  throw new Error("Transaction is not of type VersionedTransaction");
+              }
+          }            
+      } catch (error) {
+          console.log("Error in listing NFT");
+      } finally {
+          setListLoading(false);
+      }
+    };
+
+    const delist = async () => {
+        setDeListLoading(true);
+        try {
+            const response = await delistNFT(
+                nft.id,
+                nft.owner
+            );
+
+            const txsToSign = response.data.txs.map((tx: any) =>
+                tx.txV0
+                    ? VersionedTransaction.deserialize(
+                        response.data.txs[0].txV0.data
+                        )
+                    : Transaction.from(tx.tx.data)
+            );
+            if(!wallet || !wallet.signAllTransactions) {
+            console.log("Wallet not connected");
+            return;
+            }
+            const txsSigned = await wallet.signAllTransactions(txsToSign);
+
+            // Must send txs serially for a given response!
+            for (const tx of txsSigned) {
+                if (tx instanceof VersionedTransaction) {
+                    const sig = await connection.sendTransaction(tx);
+                    await connection.confirmTransaction(sig);
+                } else {
+                    throw new Error("Transaction is not of type VersionedTransaction");
+                }
+            }           
+        } catch (error) {
+            console.log("Error delisting NFT");
+        } finally {
+            setDeListLoading(false);
+        }
+    }
 
   return (
     <>
@@ -52,13 +136,15 @@ export const NFTCard: React.FC<NFTCardProps> = ({ nft }) => {
               onClick={() => setShowModal(true)}
               className="flex-1 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors text-sm"
             >
-              List
+              {listLoading ? "Listing..." : "List"}
             </button>
             <button
-            //  delist
+                onClick={() => {
+                    delist();
+                }}
               className="flex-1 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors text-sm"
             >
-              Delist
+              {deListLoading ? "Delisting..." : "Delist"}
             </button>
           </div>
         </div>
@@ -80,7 +166,8 @@ export const NFTCard: React.FC<NFTCardProps> = ({ nft }) => {
             <div className="flex gap-2">
               <button
                 onClick={() => {
-                  // listNFT()
+                    setShowModal(false);
+                    list();
                 }}
                 className="flex-1 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               >
