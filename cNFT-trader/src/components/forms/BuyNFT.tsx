@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { Transaction, VersionedTransaction } from '@solana/web3.js';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { buyNFT } from '../../utils/buyNFT';
+import { FaExternalLinkAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 export const BuyNFT = () => {
     const wallet = useWallet();
+    const navigate = useNavigate();
     const { connection } = useConnection();
     const [formData, setFormData] = useState({
         buyer: '',
@@ -144,6 +147,15 @@ export const BuyNFT = () => {
                     className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isLoading ? 'Processing...' : 'Buy NFT'}
+                </button>
+
+                <button
+                    className="flex items-center justify-center w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={() => {
+                        navigate('/market');
+                    }}
+                >
+                    Go to marketplace <FaExternalLinkAlt className="ml-2 text-white" />
                 </button>
             </form>
         </div>
