@@ -1,16 +1,16 @@
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { clusterApiUrl } from '@solana/web3.js';
+import { useMemo } from 'react';
 
 import '@solana/wallet-adapter-react-ui/styles.css';
 import './App.css'
 import './wallet.css'
 
-import { useMemo } from 'react';
-import { clusterApiUrl } from '@solana/web3.js';
-import { TreeMint } from './components/TreeMint';
-import { Navbar } from './components/Navbar';
-import { NFTGrid } from './components/NFTGrid';
+import { Market } from './pages/Market';
+import { User } from './pages/User';
 
 function App() {
 	const network = WalletAdapterNetwork.Devnet;
@@ -25,14 +25,12 @@ function App() {
 		<ConnectionProvider endpoint={endpoint}>
 			<WalletProvider wallets={wallets} autoConnect>
 				<WalletModalProvider>
-					<div className='bg-[#0F0F10] min-h-screen min-w-screen flex flex-col overflow-x-hidden font-custom'>
-						<div className='w-screen h-1/2 flex flex-col items-center pt-5 gap-2.5 bg-black'>
-							<Navbar />
-							<WalletMultiButton className="wallet-button font-custom" />
-							<TreeMint />
-							<NFTGrid />
-						</div>
-					</div>
+					<Router>
+						<Routes>
+							<Route path="/" element={<User />} />
+							<Route path="/market" element={<Market />} />
+						</Routes>
+					</Router>
 				</WalletModalProvider>
 			</WalletProvider>
 		</ConnectionProvider>

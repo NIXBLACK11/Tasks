@@ -1,11 +1,12 @@
 // @ts-nocheck
 
 import { useEffect, useState } from "react";
-import { NFTData } from "../types";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { dasApi } from '@metaplex-foundation/digital-asset-standard-api';
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
 import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-adapters";
+
+import { NFTData } from "../types";
 import { NFTCard } from "./ui/NFTCard";
 import { BuyNFT } from "./forms/BuyNFT";
 
