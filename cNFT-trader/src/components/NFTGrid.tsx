@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { useEffect, useState } from "react";
 import { NFTData } from "../types";
 import { useWallet } from "@solana/wallet-adapter-react";

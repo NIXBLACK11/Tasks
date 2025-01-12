@@ -18,7 +18,7 @@ export const Navbar = () => {
                     onClick={() => window.open("https://raw.githubusercontent.com/NIXBLACK11/Tasks/refs/heads/main/cNFT-trader/test-cnft.json", "_blank")}
                     className="flex items-center bg-[#512DA8] hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
                 >
-                    This is the json data of the cNFT
+                    [This is the json data of the cNFT]
                     <FaExternalLinkAlt className="ml-2 text-white" />
                 </button>
             </div>
