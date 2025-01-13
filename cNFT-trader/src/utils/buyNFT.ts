@@ -8,7 +8,7 @@ export const buyNFT = async (
     maxPrice: string
 ): Promise<any> => {
     try {
-        const url = `${BASE_URL}/buyNFT`;
+        const url = `${BASE_URL}/api/buyNFT`;
 
         const response = await axios.get(url, {
             params: {

@@ -6,7 +6,7 @@ export const delistNFT = async (
     NFTOwner: string
 ): Promise<any> => {
     try {
-        const url = `${BASE_URL}/delistNFT`;
+        const url = `${BASE_URL}/api/delistNFT`;
 
         const response = await axios.get(url, {
             params: {

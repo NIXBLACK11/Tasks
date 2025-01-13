@@ -7,7 +7,7 @@ export const listNFT = async (
     NFTprice: string
 ): Promise<any> => {
     try {
-        const url = `${BASE_URL}/listNFT`;
+        const url = `${BASE_URL}/api/listNFT`;
 
         const response = await axios.get(url, {
             params: {
