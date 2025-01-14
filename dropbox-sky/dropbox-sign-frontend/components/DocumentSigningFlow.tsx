@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import ReactJson from 'react-json-view';
+import JsonView from 'react18-json-view'
+import 'react18-json-view/src/style.css'
 
 export default function DocumentSigningFlow() {
   const BACKEND_URL = process.env.BACKEND_URL;
+  console.log(BACKEND_URL);
   const [templateData, setTemplateData] = useState(null);
   const [signingResponse, setSigningResponse] = useState(null);
   const [signData, setSignData] = useState(null);
@@ -42,7 +44,7 @@ export default function DocumentSigningFlow() {
     setError("");
     try {
       const response = await fetch(
-        `${BACKEND_URL}documents/getTemplate/${templateId}`
+        `https://drop-be.vercel.app/documents/getTemplate/${templateId}`
       );
       const data = await response.json();
       setTemplateData(data);
@@ -58,7 +60,7 @@ export default function DocumentSigningFlow() {
     setError("");
     try {
       const signers = [...sellers, ...buyers];
-      const response = await fetch(`${BACKEND_URL}documents/send-for-signing`, {
+      const response = await fetch(`https://drop-be.vercel.app/documents/send-for-signing`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +86,7 @@ export default function DocumentSigningFlow() {
     setError("");
     try {
       const response = await fetch(
-        `${BACKEND_URL}documents/getSignData/${signDataId}`
+        `https://drop-be.vercel.app/documents/getSignData/${signDataId}`
       );
       const data = await response.json();
       setSignData(data);
@@ -134,13 +136,13 @@ export default function DocumentSigningFlow() {
           </div>
           {templateData && (
             <div className="bg-gray-800 p-4 rounded">
-              <ReactJson
+              {/* <JsonView
                 src={templateData}
                 theme="twilight"
                 displayDataTypes={false}
                 enableClipboard={false}
-              />
-            </div>
+              /> */}
+              <JsonView src={templateData} theme="default" />            </div>
           )}
         </div>
 
@@ -234,12 +236,13 @@ export default function DocumentSigningFlow() {
           </div>
           {signingResponse && (
             <div className="bg-gray-800 p-4 rounded">
-              <ReactJson
+              {/* <ReactJson
                 src={signingResponse}
                 theme="twilight"
                 displayDataTypes={false}
                 enableClipboard={false}
-              />
+              /> */}
+              <JsonView src={signingResponse} theme="default" />
             </div>
           )}
         </div>
@@ -270,12 +273,13 @@ export default function DocumentSigningFlow() {
           </div>
           {signData && (
             <div className="bg-gray-800 p-4 rounded">
-              <ReactJson
+              {/* <ReactJson
                 src={signData}
                 theme="twilight"
                 displayDataTypes={false}
                 enableClipboard={false}
-              />
+              /> */}
+              <JsonView src={signData} theme="default" />
             </div>
           )}
         </div>
