@@ -48,8 +48,12 @@ export default function DocumentSigningFlow() {
       );
       const data = await response.json();
       setTemplateData(data);
-    } catch (err: any) {
-      setError('Error fetching template: ' + err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError('Error fetching template: ' + err.message);
+      } else {
+        setError('An unexpected error occurred.');
+      }
     } finally {
       setLoadingStates(prev => ({ ...prev, template: false }));
     }
@@ -74,8 +78,12 @@ export default function DocumentSigningFlow() {
       });
       const data = await response.json();
       setSigningResponse(data);
-    } catch (err: any) {
-      setError('Error sending for signing: ' + err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError('Error fetching template: ' + err.message);
+      } else {
+        setError('An unexpected error occurred.');
+      }
     } finally {
       setLoadingStates(prev => ({ ...prev, signing: false }));
     }
@@ -90,8 +98,12 @@ export default function DocumentSigningFlow() {
       );
       const data = await response.json();
       setSignData(data);
-    } catch (err: any) {
-      setError('Error fetching sign data: ' + err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError('Error fetching template: ' + err.message);
+      } else {
+        setError('An unexpected error occurred.');
+      }
     } finally {
       setLoadingStates(prev => ({ ...prev, signData: false }));
     }
