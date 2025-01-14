@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactJson from 'react-json-view';
 
 export default function DocumentSigningFlow() {
+  const BACKEND_URL = process.env.BACKEND_URL;
   const [templateData, setTemplateData] = useState(null);
   const [signingResponse, setSigningResponse] = useState(null);
   const [signData, setSignData] = useState(null);
@@ -41,7 +42,7 @@ export default function DocumentSigningFlow() {
     setError("");
     try {
       const response = await fetch(
-        `http://localhost:3000/documents/getTemplate/${templateId}`
+        `${BACKEND_URL}documents/getTemplate/${templateId}`
       );
       const data = await response.json();
       setTemplateData(data);
@@ -57,7 +58,7 @@ export default function DocumentSigningFlow() {
     setError("");
     try {
       const signers = [...sellers, ...buyers];
-      const response = await fetch('http://localhost:3000/documents/send-for-signing', {
+      const response = await fetch(`${BACKEND_URL}documents/send-for-signing`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +84,7 @@ export default function DocumentSigningFlow() {
     setError("");
     try {
       const response = await fetch(
-        `http://localhost:3000/documents/getSignData/${signDataId}`
+        `${BACKEND_URL}documents/getSignData/${signDataId}`
       );
       const data = await response.json();
       setSignData(data);
