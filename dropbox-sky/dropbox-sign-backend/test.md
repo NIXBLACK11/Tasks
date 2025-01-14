@@ -197,4 +197,3 @@ result.then(response => {
 ]
 }
 
-psql "postgres://avnadmin:AVNS_fliXIpc6LgQRGA9FJYL@dropbox-sign-db-first.c.aivencloud.com:13887/defaultdb?sslmode=require"
