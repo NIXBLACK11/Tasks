@@ -23,9 +23,14 @@ export class CallbackController {
         try {
             const DROPBOX_SIGN_API_KEY = this.configService.get<string>('DROPBOX_SIGN_API_KEY');
 
-            console.log('Body:', req.body);
+            let callbackBody;
+            if(req.body.json) {
+                callbackBody = JSON.parse(req.body.json);
+            } else {
+                callbackBody = req.body;
+            }
 
-            const callbackEvent = EventCallbackRequest.init(req.body);
+            const callbackEvent = EventCallbackRequest.init(callbackBody);
 
             if (EventCallbackHelper.isValid(DROPBOX_SIGN_API_KEY, callbackEvent)) {
                 const callbackType = EventCallbackHelper.getCallbackType(callbackEvent);
