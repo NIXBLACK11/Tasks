@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, Res } from '@nestjs/common';
+import { Controller, Post, Body, Req, Res, Get } from '@nestjs/common';
 import { EventCallbackRequest, EventCallbackHelper } from '@dropbox/sign';
 import { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
@@ -7,6 +7,11 @@ import { ConfigService } from '@nestjs/config';
 export class CallbackController {
     constructor(private readonly configService: ConfigService,) {}
     
+    @Get()
+    getHello(): string {
+        return "them them";
+    }
+
     @Post()
     handleCallback(@Body() body: any, @Req() req: Request, @Res() res: Response): void {
         try {
