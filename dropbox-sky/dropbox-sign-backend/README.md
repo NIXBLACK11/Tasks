@@ -1,99 +1,104 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+{
+  signature_request: {
+    test_mode: true,
+    signature_request_id: '9ed54b563c695e8192f41a3e417cc947a65dfca0',
+    requester_email_address: 'siddharthsinghrana11@gmail.com',
+    title: 'Test json data',
+    original_title: 'Test json data',
+    subject: 'Test json data',
+    message: 'Yeah man',
+    metadata: {},
+    created_at: 1736921473,
+    is_complete: false,
+    is_declined: false,
+    has_error: false,
+    files_url: 'https://api.hellosign.com/v3/signature_request/files/9ed54b563c695e8192f41a3e417cc947a65dfca0',
+    signing_url: 'https://app.hellosign.com/sign/9ed54b563c695e8192f41a3e417cc947a65dfca0',
+    details_url: 'https://app.hellosign.com/home/manage?guid=9ed54b563c695e8192f41a3e417cc947a65dfca0',
+    cc_email_addresses: [],
+    final_copy_uri: '/v3/signature_request/final_copy/9ed54b563c695e8192f41a3e417cc947a65dfca0',
+    template_ids: [ 'efc5003903e69a22660f3f34d7fe1a10e937708d' ],
+    custom_fields: [
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object]
+    ],
+    attachments: [],
+    response_data: [ [Object], [Object] ],
+    signatures: [ [Object], [Object] ]
+  },
+  event: {
+    event_time: '1736921642',
+    event_type: 'signature_request_signed',
+    event_hash: 'a0b5d35ba42187b6a2293a9a8e55380a676473c736e7481bb54c50e0ae5f65d2',
+    event_metadata: {
+      related_signature_id: '5f61d9b325c799b53761974563e80280',
+      reported_for_account_id: '42f5264c166658601e40aebd475c30f496c3a4dc'
+    }
+  },
+  account_guid: '42f5264c166658601e40aebd475c30f496c3a4dc',
+  account_id: null,
+  client_id: null
+}
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ npm install
-```
-
-## Compile and run the project
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+{
+  signature_request: {
+    test_mode: true,
+    signature_request_id: '9ed54b563c695e8192f41a3e417cc947a65dfca0',
+    requester_email_address: 'siddharthsinghrana11@gmail.com',
+    title: 'Test json data',
+    original_title: 'Test json data',
+    subject: 'Test json data',
+    message: 'Yeah man',
+    metadata: {},
+    created_at: 1736921473,
+    is_complete: true,
+    is_declined: false,
+    has_error: false,
+    files_url: 'https://api.hellosign.com/v3/signature_request/files/9ed54b563c695e8192f41a3e417cc947a65dfca0',
+    signing_url: 'https://app.hellosign.com/sign/9ed54b563c695e8192f41a3e417cc947a65dfca0',
+    details_url: 'https://app.hellosign.com/home/manage?guid=9ed54b563c695e8192f41a3e417cc947a65dfca0',
+    cc_email_addresses: [],
+    final_copy_uri: '/v3/signature_request/final_copy/9ed54b563c695e8192f41a3e417cc947a65dfca0',
+    template_ids: [ 'efc5003903e69a22660f3f34d7fe1a10e937708d' ],
+    custom_fields: [
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object]
+    ],
+    attachments: [],
+    response_data: [
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object]
+    ],
+    signatures: [ [Object], [Object] ]
+  },
+  event: {
+    event_time: '1736921809',
+    event_type: 'signature_request_downloadable',
+    event_hash: '5a71a561c524438e5b7e36a3233567ce997ddecc6c4dff769a39565facd88156',
+    event_metadata: {
+      reported_for_account_id: '42f5264c166658601e40aebd475c30f496c3a4dc'
+    }
+  },
+  account_guid: '42f5264c166658601e40aebd475c30f496c3a4dc',
+  account_id: null,
+  client_id: null
+}

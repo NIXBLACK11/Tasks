@@ -261,7 +261,7 @@ export default function DocumentSigningFlow() {
 
         {/* Step 3: Get Sign Data */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Step 3: Get Sign Data</h2>
+          <h2 className="text-xl font-semibold mb-4">Step 3: Get Sign Data (fetch from PostgreSQL DB)</h2>
           <div className="bg-gray-800 p-6 rounded mb-4">
             <div>
               <label className="block mb-2">Sign Data ID</label>
