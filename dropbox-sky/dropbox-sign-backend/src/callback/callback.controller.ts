@@ -8,11 +8,6 @@ import { AnyFilesInterceptor } from '@nestjs/platform-express';
 export class CallbackController {
     constructor(private readonly configService: ConfigService) {}
 
-    @Get()
-    getHello(): string {
-        return "them them";
-    }
-
     @Post()
     @UseInterceptors(AnyFilesInterceptor())
     handleCallback(
@@ -29,6 +24,7 @@ export class CallbackController {
             } else {
                 callbackBody = req.body;
             }
+            console.log(callbackBody);
 
             const callbackEvent = EventCallbackRequest.init(callbackBody);
 
