@@ -37,7 +37,7 @@ export class CallbackController {
                 console.log('Callback Type:', callbackType);
                 console.log('Event Data:', callbackEvent);
 
-                res.status(200).send('Callback received and verified.');
+                res.status(200).send('Hello API Event Received');
             } else {
                 console.warn('Invalid callback received:', req.body);
                 res.status(400).send('Invalid callback.');
