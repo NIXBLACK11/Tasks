@@ -4,7 +4,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DocumentsModule } from './documents/documents.module';
-import { CallbackController } from './callback/callback.controller';
+import { CallbackModule } from './callback/callback.module';
 
 @Module({
   imports: [
@@ -25,8 +25,9 @@ import { CallbackController } from './callback/callback.controller';
       inject: [ConfigService],
     }),
     DocumentsModule,
+    CallbackModule
   ],
-  controllers: [AppController, CallbackController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
