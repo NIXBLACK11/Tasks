@@ -4,9 +4,9 @@ import { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SignatureRequest } from 'src/documents/entities/signature-request.entity';
-import { Signer } from 'src/documents/entities/signer.entity';
+import { Signer } from '../documents/entities/signer.entity';
 import { Repository } from 'typeorm';
+import { SignatureRequest } from '../documents/entities/signature-request.entity';
   
 @Controller('callback')
 export class CallbackController {
